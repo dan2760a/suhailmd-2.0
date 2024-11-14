@@ -12,7 +12,7 @@ global.location="Lahore,Pakistan."
 
 
 global.mongodb= process.env.MONGODB_URI || "false" || "mongodb+srv://mohsin:mohsin@cluster0.iauaztt.mongodb.net/?retryWrites=true&w=majority"
-global.allowJids= process.env.ALLOW_JID || "254789532744 ,null" 
+global.allowJids= process.env.ALLOW_JID || "+254789532744 ,null" 
 global.blockJids= process.env.BLOCK_JID || "null"
 global.DATABASE_URL = process.env.DATABASE_URL || "false" || "mongodb+srv://mohsin:mohsin@cluster0.iauaztt.mongodb.net/?retryWrites=true&w=majority"
 
