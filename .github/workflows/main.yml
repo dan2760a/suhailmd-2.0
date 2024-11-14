@@ -1,3 +1,5 @@
+name: CI
+
 on:
   push:
     branches:
@@ -8,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,7 +26,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
-      run: npm install
+      run: npm install async-g-i-s node-fetch axios moment-timezone
 
     - name: Start application
       run: npm start
