@@ -296,30 +296,43 @@ text +="\n*Match Ended:* " + dat.data[i].matchEnded;
 })
 
 //---------------------------------------------------------------------------
+// Google Search Command
 smd({
-            pattern: "google",
-            alias :['search','gsearch'],
-            category: "search",
-            desc: "Sends info of given query from Google Search.",
-            use: '<text>',
-            filename: __filename,
-        },
-        async(message, text) => {
-          try{
-            if (!text) return message.reply(`*_Uhh please, give me a query_*\n*_Example : ${prefix}google Suhail Md._*`);
-            let google = require('google-it');
-            google({ 'query': text}).then(res => {
-                let msg= `Google Search From : ${text} \n\n`;
-                for (let g of res) {
-                    msg+= `➣ Title : ${g.title}\n`;
-                    msg+= `➣ Description : ${g.snippet}\n`;
-                    msg+= `➣ Link : ${g.link}\n\n────────────────────────\n\n`;
-                }
+    pattern: "google",
+    alias: ['search', 'gsearch'],
+    category: "search",
+    desc: "Sends info of given query from Google Search.",
+    use: '<text>',
+    filename: __filename,
+},
+async (message, text) => {
+    try {
+        if (!text) return message.reply(`*_Uhh please, give me a query_*\n*_Example : ${prefix}google Suhail Md._*`);
 
-                return message.reply(msg);
-            })
-          }catch(e){return await message.error(`${e}\n\n command: google`,e,`*_Uhh dear, Didn't get any results!_*`) }
+        const apiKey = 'YOUR_ACTUAL_GOOGLE_API_KEY'; // Replace with your actual API key
+        const searchEngineId = 'YOUR_ACTUAL_SEARCH_ENGINE_ID'; // Replace with your actual Search Engine ID
+        const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchEngineId}&q=${encodeURIComponent(text)}`;
 
+        const response = await axios.get(url);
+        const results = response.data.items;
+
+        if (!results || results.length === 0) {
+            return message.reply(`*_No results found for your query._*`);
+        }
+
+        let msg = `*Google Search Results for:* ${text}\n\n`;
+        results.forEach((item) => {
+            msg += `➣ *Title:* ${item.title}\n`;
+            msg += `➣ *Link:* ${item.link}\n`;
+            msg += `➣ *Snippet:* ${item.snippet}\n\n`;
+        });
+
+        return message.reply(msg);
+    } catch (e) {
+        console.error(e);
+        return await message.error(`${e}\n\n command: google`, e, `*_Uhh dear, Didn't get any results!_*`);
+    }
+});
         }
     )
 
